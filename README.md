@@ -2,6 +2,9 @@
 
 Adds collapsible child-item support to the [Filament](https://filamentphp.com) v5 sidebar navigation. A parent item becomes an expand/collapse toggle; its children are revealed in an animated sub-list. The group auto-expands whenever a child is active.
 
+<img width="308" height="233" alt="image" src="https://github.com/user-attachments/assets/f288ade0-bed3-43ea-a803-a5632babba94" />
+
+
 ## Requirements
 
 | Dependency | Version |
