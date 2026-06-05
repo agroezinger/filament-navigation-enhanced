@@ -1,6 +1,5 @@
 {
     "name": "agroezinger/filament-navigation-enhanced",
-    "version": "0.0.1",
     "description": "Adds collapsible child-item support to the Filament sidebar navigation.",
     "type": "library",
     "homepage": "https://github.com/agroezinger/filament-navigation-enhanced/",
@@ -27,6 +26,6 @@
             ]
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
