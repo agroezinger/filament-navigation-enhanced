@@ -21,21 +21,6 @@ Adds collapsible child-item support to the [Filament](https://filamentphp.com) v
 composer require agroezinger/filament-navigation-enhanced
 ```
 
-### Via local path repository
-
-Add the path repository to your `composer.json`:
-
-```json
-{
-    "repositories": [
-        {
-            "type": "path",
-            "url": "packages/agroezinger/filament-navigation-enhanced"
-        }
-    ]
-}
-```
-
 Then require the package:
 
 ```bash
