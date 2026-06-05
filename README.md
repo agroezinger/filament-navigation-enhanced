@@ -21,12 +21,6 @@ Adds collapsible child-item support to the [Filament](https://filamentphp.com) v
 composer require agroezinger/filament-navigation-enhanced
 ```
 
-Then require the package:
-
-```bash
-composer require agroezinger/filament-navigation-enhanced:@dev
-```
-
 ### Publish the view override
 
 The package ships a replacement for Filament's `sidebar/item` component. Publish it once so Filament picks it up:
