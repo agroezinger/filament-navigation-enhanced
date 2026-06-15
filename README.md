@@ -60,18 +60,18 @@ use Filament\Navigation\NavigationItem;
 
 NavigationEnhancedPlugin::make()
     ->parentNavigationItem(
-        NavigationItem::make('SAP Imports')
+        NavigationItem::make('Parent Menu Item')
             ->icon('heroicon-o-arrow-up-tray')
             ->group('Workflows')
             ->sort(10)
             ->childItems([
-                NavigationItem::make('Order positions')
+                NavigationItem::make('Sub-Menu-Item 1')
                     ->url(fn() => ImportOrderPositionsPage::getUrl())
-                    ->isActiveWhen(fn() => request()->routeIs('filament.frontend.pages.import-order-positions*')),
+                    ->isActiveWhen(fn() => request()->routeIs('filament.frontend.pages.sub-menu-item-1*')),
 
-                NavigationItem::make('Price list')
+                NavigationItem::make('Sub-Menu-Item 2')
                     ->url(fn() => ImportPricelistPage::getUrl())
-                    ->isActiveWhen(fn() => request()->routeIs('filament.frontend.pages.import-pricelist*')),
+                    ->isActiveWhen(fn() => request()->routeIs('filament.frontend.pages.sub-menu-item-2*')),
             ])
     )
 ```
