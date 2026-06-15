@@ -50,9 +50,41 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-The plugin itself has no configuration options — registering it documents intent and allows future configuration hooks.
+### 2. Register standalone parent items (no Page class needed)
 
-### 2. Add the trait to a parent Page or Resource
+Use `parentNavigationItem()` to declare a collapsible parent item directly on the plugin — no dummy Page or redirect required:
+
+```php
+use Agroezinger\FilamentNavigationEnhanced\NavigationEnhancedPlugin;
+use Filament\Navigation\NavigationItem;
+
+NavigationEnhancedPlugin::make()
+    ->parentNavigationItem(
+        NavigationItem::make('SAP Imports')
+            ->icon('heroicon-o-arrow-up-tray')
+            ->group('Workflows')
+            ->sort(10)
+            ->childItems([
+                NavigationItem::make('Order positions')
+                    ->url(fn() => ImportOrderPositionsPage::getUrl())
+                    ->isActiveWhen(fn() => request()->routeIs('filament.frontend.pages.import-order-positions*')),
+
+                NavigationItem::make('Price list')
+                    ->url(fn() => ImportPricelistPage::getUrl())
+                    ->isActiveWhen(fn() => request()->routeIs('filament.frontend.pages.import-pricelist*')),
+            ])
+    )
+```
+
+The child Pages must still opt out of standalone navigation registration:
+
+```php
+protected static bool $shouldRegisterNavigation = false;
+```
+
+Call `->parentNavigationItem()` multiple times to register more than one standalone parent.
+
+### 3. Add the trait to a parent Page or Resource
 
 ```php
 use Agroezinger\FilamentNavigationEnhanced\Concerns\HasNavigationChildren;
