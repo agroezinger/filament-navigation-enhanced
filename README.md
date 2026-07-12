@@ -1,17 +1,17 @@
 # filament-navigation-enhanced
 
+[![Plumb score](https://plumbphp.dev/badges/agroezinger/filament-navigation-enhanced/composite.svg)](https://plumbphp.dev/agroezinger/filament-navigation-enhanced) [![Plumb security score](https://plumbphp.dev/badges/agroezinger/filament-navigation-enhanced/security.svg)](https://plumbphp.dev/agroezinger/filament-navigation-enhanced) [![Plumb maintenance score](https://plumbphp.dev/badges/agroezinger/filament-navigation-enhanced/maintenance.svg)](https://plumbphp.dev/agroezinger/filament-navigation-enhanced) [![Plumb ecosystem score](https://plumbphp.dev/badges/agroezinger/filament-navigation-enhanced/ecosystem.svg)](https://plumbphp.dev/agroezinger/filament-navigation-enhanced) [![Scanned by Plumb](https://plumbphp.dev/badges/agroezinger/filament-navigation-enhanced/scanned.svg)](https://plumbphp.dev/agroezinger/filament-navigation-enhanced)
+
 Adds collapsible child-item support to the [Filament](https://filamentphp.com) v5 sidebar navigation. A parent item becomes an expand/collapse toggle; its children are revealed in an animated sub-list. The group auto-expands whenever a child is active.
 
 <img width="306" height="499" alt="image" src="https://github.com/user-attachments/assets/ca42da52-e616-4680-b139-cdfa2c86e1a3" />
 
-
-
 ## Requirements
 
-| Dependency | Version |
-|---|---|
-| PHP | ^8.2 |
-| filament/filament | ^5.0 |
+| Dependency        | Version |
+| ----------------- | ------- |
+| PHP               | ^8.2    |
+| filament/filament | ^5.0    |
 
 ## Installation
 
