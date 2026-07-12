@@ -1,0 +1,31 @@
+name: Tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Code auschecken (mit deinem eingefügten Hash)
+      - name: Checkout Code
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      # PHP einrichten (Standard-Action für PHP-Projekte)
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: "8.2" # Deine Mindestanforderung laut composer.json
+          coverage: none
+
+      # Abhängigkeiten installieren
+      - name: Install Dependencies
+        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress
+
+      # Prüfen, ob die composer.json valide ist
+      - name: Validate Composer
+        run: composer validate
