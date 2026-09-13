@@ -20,6 +20,16 @@
 @php
     $sidebarCollapsible = $sidebarCollapsible && filament()->isSidebarCollapsibleOnDesktop();
     $hasChildren = filled($childItems);
+    /**
+     * Generic "locked" overlay: any app can mark a NavigationItem as locked via
+     * ->extraAttributes(['data-nav-locked' => 'true']) (e.g. a feature gated behind a
+     * subscription) to get a small lock badge on the item's icon, without the package
+     * knowing anything about the app-specific reason. A CSS pseudo-element on the icon
+     * itself does NOT work here — Heroicon/BackedEnum icons render as a raw <svg>, and
+     * ::before/::after are not supported on <svg> elements in any browser — so this
+     * renders a real sibling <span> instead, wrapped in a positioning container.
+     */
+    $isLocked = filled($attributes->get('data-nav-locked'));
 @endphp
 
 @if ($hasChildren)
@@ -54,9 +64,14 @@
             class="fi-sidebar-item-btn w-full text-left"
         >
             @if (filled($icon))
-                {{
-                    \Filament\Support\generate_icon_html(($active && $activeIcon) ? $activeIcon : $icon, attributes: (new \Illuminate\View\ComponentAttributeBag)->class(['fi-sidebar-item-icon']), size: \Filament\Support\Enums\IconSize::Large)
-                }}
+                <span @class(['fi-sidebar-item-icon-ctn', 'fi-sidebar-item-icon-ctn-locked' => $isLocked])>
+                    {{
+                        \Filament\Support\generate_icon_html(($active && $activeIcon) ? $activeIcon : $icon, attributes: (new \Illuminate\View\ComponentAttributeBag)->class(['fi-sidebar-item-icon']), size: \Filament\Support\Enums\IconSize::Large)
+                    }}
+                    @if ($isLocked)
+                        <span class="fi-sidebar-item-icon-lock-badge" aria-hidden="true"></span>
+                    @endif
+                </span>
             @endif
 
             <span
@@ -187,11 +202,16 @@
             class="fi-sidebar-item-btn"
         >
             @if (filled($icon) && ((! $subGrouped) || ($sidebarCollapsible && (! $subNavigation))))
-                {{
-                    \Filament\Support\generate_icon_html(($active && $activeIcon) ? $activeIcon : $icon, attributes: (new \Illuminate\View\ComponentAttributeBag([
-                        'x-show' => ($subGrouped && $sidebarCollapsible) ? '! $store.sidebar.isOpen' : false,
-                    ]))->class(['fi-sidebar-item-icon']), size: \Filament\Support\Enums\IconSize::Large)
-                }}
+                <span @class(['fi-sidebar-item-icon-ctn', 'fi-sidebar-item-icon-ctn-locked' => $isLocked])>
+                    {{
+                        \Filament\Support\generate_icon_html(($active && $activeIcon) ? $activeIcon : $icon, attributes: (new \Illuminate\View\ComponentAttributeBag([
+                            'x-show' => ($subGrouped && $sidebarCollapsible) ? '! $store.sidebar.isOpen' : false,
+                        ]))->class(['fi-sidebar-item-icon']), size: \Filament\Support\Enums\IconSize::Large)
+                    }}
+                    @if ($isLocked)
+                        <span class="fi-sidebar-item-icon-lock-badge" aria-hidden="true"></span>
+                    @endif
+                </span>
             @endif
 
             @if ((blank($icon) && $grouped) || $subGrouped)

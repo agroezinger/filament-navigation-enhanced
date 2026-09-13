@@ -163,6 +163,42 @@ php artisan route:list --name="filament.{panel}" --json \
   | php -r "foreach(json_decode(file_get_contents('php://stdin'),true) as \$r) echo \$r['name'].PHP_EOL;"
 ```
 
+## Locked navigation items
+
+Mark any `NavigationItem` as locked (e.g. a feature gated behind a subscription) to render a small
+lock badge next to its icon — the package only renders the badge markup, the app supplies the
+actual styling:
+
+```php
+NavigationItem::make('Buchhaltung')
+    ->url(AccountingEntryResource::getUrl('index'))
+    ->icon('heroicon-o-banknotes')
+    ->extraAttributes(['data-nav-locked' => 'true']),
+```
+
+Add the badge styling in your own CSS (the package intentionally ships no styles for it):
+
+```css
+.fi-sidebar-item-icon-ctn-locked {
+    position: relative;
+}
+
+.fi-sidebar-item-icon-lock-badge {
+    position: absolute;
+    inset-block-end: -0.125rem;
+    inset-inline-end: -0.125rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+    background-color: theme(colors.gray.400);
+    /* e.g. a lock icon as a mask-image, or any indicator you prefer */
+}
+```
+
+This works for icons rendered as a raw `<svg>` (Heroicon/`BackedEnum` icons) — those elements do
+not support `::before`/`::after` in any browser, so a real sibling `<span>` is used instead of a
+CSS pseudo-element.
+
 ## How it works
 
 The package publishes a custom `sidebar/item` Blade component that extends Filament's default one. When a `NavigationItem` carries child items (set via `$item->childItems([...])`), the component renders a `<button>` toggle instead of an `<a>` link, and wraps the children in an Alpine.js-powered `<ul>` with enter/leave transitions.
