@@ -19,6 +19,12 @@
 
 @php
     $sidebarCollapsible = $sidebarCollapsible && filament()->isSidebarCollapsibleOnDesktop();
+    // Unterpunkte mit ->visible(false)/->hidden() ausblenden — Filament filtert childItems nicht
+    // selbst, ohne diesen Filter erscheinen Einträge, deren Seite dann mit 403 antwortet.
+    $childItems = array_filter(
+        is_array($childItems) ? $childItems : iterator_to_array($childItems),
+        fn ($childItem) => $childItem->isVisible(),
+    );
     $hasChildren = filled($childItems);
     /**
      * Generic "locked" overlay: any app can mark a NavigationItem as locked via
