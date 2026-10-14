@@ -9,6 +9,7 @@
     'first' => false,
     'grouped' => false,
     'icon' => null,
+    'label' => null,
     'last' => false,
     'shouldOpenUrlInNewTab' => false,
     'sidebarCollapsible' => true,
@@ -18,7 +19,14 @@
 ])
 
 @php
+    use Illuminate\Contracts\Support\Htmlable;
+
     $sidebarCollapsible = $sidebarCollapsible && filament()->isSidebarCollapsibleOnDesktop();
+    // Seit Filament 5.10.2 wird das Label per eigenem Prop statt nur per Slot übergeben
+    // (vendor/filament/filament/resources/views/components/sidebar/item.blade.php) — ohne
+    // diesen Fallback bleibt der Slot leer und die Menüpunkte zeigen nur noch das Icon.
+    $tooltip = $label ?? $slot;
+    $labelText = ($tooltip instanceof Htmlable) ? trim(html_entity_decode(strip_tags($tooltip->toHtml()), ENT_QUOTES | ENT_HTML5, 'UTF-8')) : $tooltip;
     // Unterpunkte mit ->visible(false)/->hidden() ausblenden — Filament filtert childItems nicht
     // selbst, ohne diesen Filter erscheinen Einträge, deren Seite dann mit 403 antwortet.
     $childItems = array_filter(
@@ -60,7 +68,7 @@
                     tooltip = $store.sidebar.isOpen
                         ? false
                         : {
-                              content: @js($slot->toHtml()),
+                              content: @js(($tooltip instanceof Htmlable) ? $tooltip->toHtml() : $tooltip),
                               placement: document.dir === 'rtl' ? 'left' : 'right',
                               theme: $store.theme,
                           }
@@ -89,7 +97,7 @@
                 @endif
                 class="fi-sidebar-item-label"
             >
-                {{ $slot }}
+                {{ $label ?? $slot }}
             </span>
 
             @if (filled($badge))
@@ -198,7 +206,7 @@
                     tooltip = $store.sidebar.isOpen
                         ? false
                         : {
-                              content: @js($slot->toHtml()),
+                              content: @js(($tooltip instanceof Htmlable) ? $tooltip->toHtml() : $tooltip),
                               placement: document.dir === 'rtl' ? 'left' : 'right',
                               theme: $store.theme,
                           }
@@ -248,7 +256,7 @@
                 @endif
                 class="fi-sidebar-item-label"
             >
-                {{ $slot }}
+                {{ $label ?? $slot }}
             </span>
 
             @if (filled($badge))
